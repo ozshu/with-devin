@@ -143,6 +143,61 @@ The Spring Boot application uses these environment variables (set in docker-comp
 - `SPRING_MAIL_HOST`: MailHog hostname
 - `SPRING_MAIL_PORT`: MailHog SMTP port
 
+## Development Workflow
+
+### Making Code Changes
+
+When you modify Spring Boot source code (e.g., adding new endpoints, changing business logic), you need to manually rebuild the container to see your changes.
+
+#### Basic Rebuild Process
+```bash
+# After making code changes to Spring Boot application
+docker-compose build --no-cache spring-app
+docker-compose up -d
+```
+
+#### Efficient Development Commands
+```bash
+# More efficient: rebuild and restart only the changed service
+docker-compose up -d --build spring-app
+
+# This command will:
+# 1. Rebuild the spring-app container with your code changes
+# 2. Restart only the spring-app container
+# 3. Keep MySQL and MailHog containers running
+```
+
+#### Complete Reset (if issues occur)
+```bash
+# Stop all containers and rebuild everything from scratch
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+### Development Example
+
+Here's a typical development cycle when adding a new endpoint:
+
+1. **Make code changes**: Edit `MessageController.java` to add a new endpoint
+2. **Rebuild container**: `docker-compose build --no-cache spring-app`
+3. **Restart application**: `docker-compose up -d`
+4. **Test changes**: `curl http://localhost:8080/your-new-endpoint`
+5. **View logs**: `docker-compose logs spring-app` (if needed)
+
+### Development Tips
+
+- **Docker layer caching**: If you only change source code (not `pom.xml`), Maven dependencies won't be re-downloaded
+- **Partial rebuilds**: Use `--build spring-app` to avoid rebuilding MySQL and MailHog containers
+- **Log monitoring**: Use `docker-compose logs -f spring-app` to follow application logs in real-time
+- **Container status**: Use `docker-compose ps` to check which containers are running
+
+### Important Notes
+
+- **No automatic rebuilds**: Code changes do NOT automatically trigger container rebuilds
+- **Manual process**: You must run build commands after each code change
+- **Multi-stage efficiency**: The Docker multi-stage build optimizes the rebuild process by caching layers
+
 ## Stopping the Application
 
 ```bash
