@@ -42,7 +42,7 @@ The Spring Boot application provides two endpoints that both accept a `message_i
 
 ### Prerequisites
 - Docker and Docker Compose installed
-- Java 17 and Maven (for building the Spring Boot app)
+- No need for local Java or Maven installation (handled by Docker containers)
 
 ### Running the Application
 
@@ -59,14 +59,7 @@ The Spring Boot application provides two endpoints that both accept a `message_i
    # Edit .env file with your preferred database credentials
    ```
 
-3. **Build the Spring Boot application**
-   ```bash
-   cd spring-app
-   mvn clean package -DskipTests
-   cd ..
-   ```
-
-4. **Start all containers**
+3. **Start all containers (Maven build happens automatically in Docker)**
    ```bash
    docker-compose up -d
    ```
@@ -169,3 +162,6 @@ docker-compose down
 - Web interface uses Thymeleaf templating
 - Error handling is implemented for non-existent message IDs
 - All containers communicate through a custom Docker network
+- **Multi-stage Docker build**: Maven compilation happens inside Docker container
+- **No local dependencies**: No need to install Java or Maven locally
+- **Optimized builds**: Docker layer caching for faster subsequent builds
