@@ -46,19 +46,27 @@ The Spring Boot application provides two endpoints that both accept a `message_i
 
 ### Running the Application
 
-1. **Clone/Download the project**
+1. **Clone the project**
    ```bash
-   cd spring-docker-project
+   git clone https://github.com/ozshu/with-devin.git
+   cd with-devin
+   git checkout devin/1750129856-spring-docker-compose
    ```
 
-2. **Build the Spring Boot application**
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env file with your preferred database credentials
+   ```
+
+3. **Build the Spring Boot application**
    ```bash
    cd spring-app
    mvn clean package -DskipTests
    cd ..
    ```
 
-3. **Start all containers**
+4. **Start all containers**
    ```bash
    docker-compose up -d
    ```
@@ -114,12 +122,25 @@ spring-docker-project/
 
 ## Configuration
 
+### Environment Variables
+Create a `.env` file from the provided `.env.example` template:
+
+```bash
+cp .env.example .env
+```
+
+Required environment variables:
+- `MYSQL_ROOT_PASSWORD`: Root password for MySQL
+- `MYSQL_DATABASE`: Database name (defaults to "testdb")
+- `MYSQL_USER`: Database username
+- `MYSQL_PASSWORD`: Database password
+
 ### Database Configuration
 - **Host**: mysql (container name)
 - **Port**: 3306
-- **Database**: testdb
-- **Username**: user
-- **Password**: password
+- **Database**: Configured via `MYSQL_DATABASE` environment variable
+- **Username**: Configured via `MYSQL_USER` environment variable
+- **Password**: Configured via `MYSQL_PASSWORD` environment variable
 
 ### Environment Variables
 The Spring Boot application uses these environment variables (set in docker-compose.yml):
