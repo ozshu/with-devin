@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# Maven build artifacts
+spring-app/target/
+
+# IDE files
+spring-app/.classpath
+spring-app/.project
+spring-app/.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
